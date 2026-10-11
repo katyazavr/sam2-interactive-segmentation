@@ -1,0 +1,19 @@
+{
+  "images_total": 5000,
+  "annotations_total": 36781,
+  "excluded_iscrowd": 446,
+  "rejected": {},
+  "objects_valid": 36335,
+  "images_with_valid_objects": 4952,
+  "categories": 80,
+  "split_images": {
+    "development": 2971,
+    "validation": 990,
+    "test": 991
+  },
+  "split_objects": {
+    "development": 22029,
+    "validation": 7365,
+    "test": 6941
+  }
+}
