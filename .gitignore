@@ -1,0 +1,4 @@
+data/coco/
+.venv/
+__pycache__/
+*.pyc
