@@ -1,0 +1,14 @@
+{
+  "n_images": 50,
+  "n_objects": 345,
+  "mean_iou": 0.5445342652973717,
+  "median_iou": 0.6109725685785536,
+  "std_iou": 0.3038289992913211,
+  "mean_dice": 0.6469901090978609,
+  "median_dice": 0.7585139318885449,
+  "std_dice": 0.2996995795095871,
+  "mean_encoder_ms_per_image": 630.73598,
+  "median_encoder_ms_per_image": 626.8815,
+  "mean_prompt_ms_per_object": 14.925434782608695,
+  "median_prompt_ms_per_object": 14.797
+}

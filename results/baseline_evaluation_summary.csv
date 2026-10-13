@@ -1,0 +1,2 @@
+n_images,n_objects,mean_iou,median_iou,std_iou,mean_dice,median_dice,std_dice,mean_encoder_ms_per_image,median_encoder_ms_per_image,mean_prompt_ms_per_object,median_prompt_ms_per_object
+50,345,0.5445342652973717,0.6109725685785536,0.3038289992913211,0.6469901090978609,0.7585139318885449,0.2996995795095871,630.73598,626.8815,14.925434782608695,14.797
