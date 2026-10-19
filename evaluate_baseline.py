@@ -1,6 +1,9 @@
-"""Evaluate SAM 2 point baseline predictions against COCO ground-truth masks.
+"""Evaluate SAM 2 predictions (point_center or box_gt) against COCO ground-truth masks.
 
-Run after run_point_baseline.py. No model or checkpoint needed for evaluation.
+Run after run_point_baseline.py / run_box_baseline.py. No model or checkpoint needed.
+
+    python evaluate_baseline.py --split development --condition point_center
+    python evaluate_baseline.py --split development --condition box_gt
 """
 import argparse
 import json
@@ -22,7 +25,7 @@ def iou_dice(pred, gt):
     return float(iou), float(dice)
 
 
-def evaluate(csv_path, masks_path, coco_root, out_dir):
+def evaluate(csv_path, masks_path, coco_root, out_dir, condition='point_center'):
     from pycocotools import mask as mask_utils
     from dataset import COCOObjects
     baseline = pd.read_csv(csv_path)
@@ -73,9 +76,9 @@ def evaluate(csv_path, masks_path, coco_root, out_dir):
     results = pd.DataFrame(rows).sort_values(['image_id', 'annotation_id'])
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
-    results.to_csv(out / 'baseline_evaluation_objects.csv', index=False)
+    results.to_csv(out / f'{condition}_evaluation_objects.csv', index=False)
 
-    # Encoder is measured once per image. Never average repeated encoder values per object.
+    # Encoder is measured once per image, Never average repeated encoder values per object.
     enc = results.drop_duplicates('image_id')['encoder_ms'].astype(float)
     prompt = results['prompt_ms'].astype(float)
     summary = {
@@ -92,8 +95,8 @@ def evaluate(csv_path, masks_path, coco_root, out_dir):
         'mean_prompt_ms_per_object': float(prompt.mean()),
         'median_prompt_ms_per_object': float(prompt.median()),
     }
-    (out / 'baseline_evaluation_summary.json').write_text(json.dumps(summary, indent=2), encoding='utf-8')
-    pd.DataFrame([summary]).to_csv(out / 'baseline_evaluation_summary.csv', index=False)
+    (out / f'{condition}_evaluation_summary.json').write_text(json.dumps(summary, indent=2), encoding='utf-8')
+    pd.DataFrame([summary]).to_csv(out / f'{condition}_evaluation_summary.csv', index=False)
     print(json.dumps(summary, indent=2))
     print(f"Saved evaluation files to {out}")
     return summary
@@ -104,12 +107,14 @@ def main():
     parser.add_argument('--split', default='development', choices=['development', 'validation', 'test'])
     parser.add_argument('--results-dir', default='results')
     parser.add_argument('--coco-root', default='data/coco')
+    parser.add_argument('--condition', default='point_center', choices=['point_center', 'box_gt'])
     parser.add_argument('--out-dir', default=None)
     args = parser.parse_args()
-    stem = f'point_center_{args.split}'
+    stem = f'{args.condition}_{args.split}'
     results_dir = Path(args.results_dir)
     evaluate(results_dir / f'{stem}.csv', results_dir / f'{stem}_masks.jsonl',
-             args.coco_root, args.out_dir or str(results_dir / f'evaluation_{args.split}'))
+             args.coco_root, args.out_dir or str(results_dir / f'evaluation_{args.split}'),
+             condition=args.condition)
 
 
 if __name__ == '__main__':

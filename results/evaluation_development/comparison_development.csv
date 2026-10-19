@@ -1,0 +1,12 @@
+Metric,Point Prompt,Box Prompt,Difference (box - point)
+Mean IoU,0.5445,0.7497,0.2051
+Median IoU,0.611,0.8032,0.1922
+Std IoU,0.3038,0.1824,-0.1214
+Mean Dice,0.647,0.8426,0.1956
+Median Dice,0.7585,0.8908,0.1323
+Std Dice,0.2997,0.1388,-0.1609
+"Encoder latency, mean (ms)",615.7327,569.2145,-46.5182
+"Encoder latency, median (ms)",605.8835,565.879,-40.0045
+"Prompt latency, mean (ms)",12.9915,13.7085,0.717
+"Prompt latency, median (ms)",12.015,10.845,-1.17
+"Prompt latency, max (ms)",54.516,690.874,636.358

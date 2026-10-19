@@ -1,0 +1,89 @@
+{
+  "table": [
+    {
+      "Metric": "Mean IoU",
+      "Point Prompt": 0.5445,
+      "Box Prompt": 0.7497,
+      "Difference (box - point)": 0.2051
+    },
+    {
+      "Metric": "Median IoU",
+      "Point Prompt": 0.611,
+      "Box Prompt": 0.8032,
+      "Difference (box - point)": 0.1922
+    },
+    {
+      "Metric": "Std IoU",
+      "Point Prompt": 0.3038,
+      "Box Prompt": 0.1824,
+      "Difference (box - point)": -0.1214
+    },
+    {
+      "Metric": "Mean Dice",
+      "Point Prompt": 0.647,
+      "Box Prompt": 0.8426,
+      "Difference (box - point)": 0.1956
+    },
+    {
+      "Metric": "Median Dice",
+      "Point Prompt": 0.7585,
+      "Box Prompt": 0.8908,
+      "Difference (box - point)": 0.1323
+    },
+    {
+      "Metric": "Std Dice",
+      "Point Prompt": 0.2997,
+      "Box Prompt": 0.1388,
+      "Difference (box - point)": -0.1609
+    },
+    {
+      "Metric": "Encoder latency, mean (ms)",
+      "Point Prompt": 615.7327,
+      "Box Prompt": 569.2145,
+      "Difference (box - point)": -46.5182
+    },
+    {
+      "Metric": "Encoder latency, median (ms)",
+      "Point Prompt": 605.8835,
+      "Box Prompt": 565.879,
+      "Difference (box - point)": -40.0045
+    },
+    {
+      "Metric": "Prompt latency, mean (ms)",
+      "Point Prompt": 12.9915,
+      "Box Prompt": 13.7085,
+      "Difference (box - point)": 0.717
+    },
+    {
+      "Metric": "Prompt latency, median (ms)",
+      "Point Prompt": 12.015,
+      "Box Prompt": 10.845,
+      "Difference (box - point)": -1.17
+    },
+    {
+      "Metric": "Prompt latency, max (ms)",
+      "Point Prompt": 54.516,
+      "Box Prompt": 690.874,
+      "Difference (box - point)": 636.358
+    }
+  ],
+  "paired": {
+    "n_objects": 345,
+    "n_images": 50,
+    "mean_delta_iou": 0.20513681199108108,
+    "median_delta_iou": 0.06976499711756923,
+    "delta_iou_ci95": [
+      0.17496205484387706,
+      0.2359855957877856
+    ],
+    "mean_delta_dice": 0.19558685256397257,
+    "median_delta_dice": 0.04476534296028878,
+    "delta_dice_ci95": [
+      0.1665812267132897,
+      0.22561234712047878
+    ],
+    "box_better_share": 0.7217391304347827,
+    "equal_share": 0.0,
+    "point_better_share": 0.2782608695652174
+  }
+}
