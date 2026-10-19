@@ -1,0 +1,21 @@
+{
+  "condition": "point_center",
+  "split": "development",
+  "max_images": 50,
+  "images": 50,
+  "objects": 345,
+  "checkpoint": "sam2.1_hiera_base_plus",
+  "model_config": "configs/sam2.1/sam2.1_hiera_b+.yaml",
+  "multimask_output": true,
+  "mask_selection": "highest predicted score",
+  "precision": "fp32",
+  "device": "mps:0",
+  "gpu": null,
+  "warmup_runs": 3,
+  "python": "3.13.0",
+  "torch": "2.14.1",
+  "cuda": null,
+  "sam2_path": "/Users/annaksel/sam2-interactive-segmentation/.venv/lib/python3.13/site-packages/sam2",
+  "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+  "total_seconds": 38.3
+}
