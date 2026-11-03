@@ -1,0 +1,24 @@
+% Failure Analysis section. Needs \usepackage{booktabs} and \usepackage{graphicx}.
+% Upload fig_failure_compact.pdf (4 cases, fits one column) or fig_failure_cases.pdf (6 cases) to figures/.
+% Numbers: test split, 6,941 objects; failure = IoU < 0.3. Cases are single examples, causes are hypotheses.
+
+\section{Failure Analysis}
+
+We looked at objects with IoU below 0.3, which we call failures. On the test split there are 1{,}443 such objects for the point prompt (20.8\%) and 189 for the box prompt (2.7\%). Both prompts fail on 152 objects. For 1{,}038 of the point failures the box mask reaches IoU $\geq 0.5$, and the opposite case is rare: only 16 objects fail with the box but reach IoU $\geq 0.5$ with the point. Figure~\ref{fig:failures} shows four cases, one for each frequent type of error (green: ground truth, red: point, blue: box). The cases were picked by hand from groups of failures of the same type, so they illustrate the types and do not give their frequency. The explanations below are our hypotheses based on the images and on the mask sizes; we did not test them with extra experiments.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig_failure_compact.pdf}
+\caption{Failure cases on the test split (green: ground truth; red: point prompt with the star as the point; blue: box prompt with the yellow box). The titles give IoU and the model score.}
+\label{fig:failures}
+\end{figure}
+
+\textbf{Point prompt: part instead of whole.} For 923 of the 1{,}443 point failures the predicted mask is smaller than half of the ground truth. In Fig.~\ref{fig:failures}a the point lies on the sleeve and the mask covers only the arm (IoU 0.20); the box mask covers the whole person (IoU 0.88). Likely cause: one point does not say which level of the object is meant (arm, person, or clothing), and SAM returns the part that contains the point. This fits the size statistics: 32.6\% of large objects (area $\geq 96^2$ pixels) fail with the point, but only 18.5\% of small ones (area $< 32^2$). Person is the most frequent category among the point failures (435 objects).
+
+\textbf{Box prompt: several objects inside one box.} The box failures are mostly over-segmentations: for 142 of 189 the predicted mask is more than twice as large as the ground truth. In Fig.~\ref{fig:failures}b the box around one carrot also covers neighbouring carrots, and the mask covers the whole bunch (IoU 0.25), while the point gives IoU 0.58, although with a low score of 0.48. In Fig.~\ref{fig:failures}c the box around a partly hidden chair also contains the person sitting in it, and the mask follows the person (IoU 0.25). Likely cause: the box is a loose rectangle and does not say which of the objects inside it is wanted. This is common for thin, rotated, occluded or crowded objects, where the box contains a lot of other content. Most box failures are small objects (130 of 189, 68.8\%), where the box is only a few pixels wide and a small shift changes the content a lot. The failure rate of the box is 4.7\% for small objects and 2.2\% for large ones.
+
+\textbf{Both prompts: wrong object or level.} In Fig.~\ref{fig:failures}d the ground truth is a small backpack (301 pixels), but both prompts segment the person who carries it (mask areas 889 and 781 pixels). Here the backpack is a small part of a more salient object, and both prompts end up on the person. Another group in our inspection are \texttt{dining table} objects (58 point and 20 box failures), where the COCO mask appears to include the dishes on the table. SAM segmented a dish or a part of the table surface instead, so the error may come from the annotation convention and not only from the model.
+
+\textbf{Model score as a warning signal.} The mean predicted score of the failures is 0.743 for the point and 0.745 for the box, compared with 0.824 and 0.915 over all objects. The correlation between score and IoU is 0.746 for the box but only 0.358 for the point. So for the box prompt a low score is a useful signal of a likely failure, while for the point the score is often high for a wrong mask: in Fig.~\ref{fig:failures}a the failing point mask has a score of 0.87.
+
+\textbf{Limitations.} A failure here means a low IoU with the COCO mask, and COCO masks themselves are polygons with errors and conventions that differ between categories, so part of the low IoU values may be label noise. The box prompt uses the ground-truth box, so real detector boxes can produce more of the errors described above. The explanations are based on single examples and on size statistics, not on controlled experiments.
