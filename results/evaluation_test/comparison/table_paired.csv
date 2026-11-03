@@ -1,0 +1,8 @@
+Statistic,Objects (%)
+Box better by more than 0.1,38.82725832012678
+Point better by more than 0.1,5.244201123757384
+Box better by more than 0.3,26.148969889064976
+Point better by more than 0.3,0.6195072756087019
+Difference at most 0.05,43.97060942227345
+Point IoU below 0.3,20.789511597752487
+Box IoU below 0.3,2.7229505834894105
