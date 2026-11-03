@@ -3,4 +3,4 @@ data/coco/
 __pycache__/
 *.pyc
 checkpoints/
-results/
+

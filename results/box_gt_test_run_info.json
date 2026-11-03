@@ -1,0 +1,21 @@
+{
+  "condition": "box_gt",
+  "prompt_source": "COCO ground-truth annotation bounding box (oracle)",
+  "split": "test",
+  "max_images": null,
+  "images": 991,
+  "objects": 6941,
+  "checkpoint": "sam2.1_hiera_base_plus",
+  "model_config": "configs/sam2.1/sam2.1_hiera_b+.yaml",
+  "multimask_output": true,
+  "mask_selection": "highest predicted score",
+  "precision": "fp32",
+  "device": "mps:0",
+  "warmup_runs": 3,
+  "python": "3.14.3",
+  "torch": "2.15.0",
+  "cuda": null,
+  "sam2_path": "/Users/sabinaamilova/Documents/sam2-interactive-segmentation/.venv/lib/python3.14/site-packages/sam2",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "total_seconds": 660.6
+}
