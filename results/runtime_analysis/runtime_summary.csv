@@ -1,0 +1,3 @@
+method,images,objects,total_seconds,device,precision,encoder_mean_ms,encoder_median_ms,encoder_std_ms,prompt_mean_ms,prompt_median_ms,prompt_std_ms,prompt_p95_ms,prompt_p99_ms,prompt_max_ms
+Point Prompt,991,6941,675.7,mps:0,fp32,595.7285398587286,587.365,25.721097815617842,10.089010517216542,9.854,1.0926468499246131,11.251,13.808000000000023,31.334
+Box Prompt,991,6941,660.6,mps:0,fp32,588.7829233097882,590.219,7.605126763776035,9.983179368967008,9.874,8.036435718339268,10.255,10.492,679.136
