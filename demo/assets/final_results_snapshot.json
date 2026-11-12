@@ -1,0 +1,61 @@
+{
+  "point": {
+    "n_images": 991,
+    "n_objects": 6941,
+    "mean_iou": 0.60093381391194,
+    "median_iou": 0.697560975609756,
+    "std_iou": 0.29493738885169934,
+    "mean_dice": 0.6996503328781629,
+    "median_dice": 0.8218390804597702,
+    "mean_encoder_ms_per_image": 595.7285398587286,
+    "mean_prompt_ms_per_object": 10.089010517216542
+  },
+  "box": {
+    "n_images": 991,
+    "n_objects": 6941,
+    "mean_iou": 0.7619226701894156,
+    "median_iou": 0.8191747572815534,
+    "std_iou": 0.17936596028386634,
+    "mean_dice": 0.8507792309032342,
+    "median_dice": 0.9006004002668445,
+    "mean_encoder_ms_per_image": 588.7829233097882,
+    "mean_prompt_ms_per_object": 9.983179368967008
+  },
+  "comparison": {
+    "paired": {
+      "n_objects": 6941,
+      "n_images": 991,
+      "mean_delta_iou": 0.16098885627747553,
+      "mean_delta_dice": 0.15112889802507104,
+      "delta_iou_ci95": [0.1546551716080636, 0.16708083002885468],
+      "box_better_share": 0.6841953608990059
+    }
+  },
+  "point_info": {
+    "device": "mps:0",
+    "precision": "fp32",
+    "python": "3.14.3",
+    "torch": "2.15.0",
+    "checkpoint": "sam2.1_hiera_base_plus",
+    "total_seconds": 675.7
+  },
+  "box_info": {
+    "device": "mps:0",
+    "precision": "fp32",
+    "python": "3.14.3",
+    "torch": "2.15.0",
+    "checkpoint": "sam2.1_hiera_base_plus",
+    "total_seconds": 660.6
+  },
+  "thresholds": [
+    {"threshold": "0.50", "point": 65.5, "box": 89.7},
+    {"threshold": "0.75", "point": 44.1, "box": 64.6},
+    {"threshold": "0.90", "point": 14.4, "box": 22.8}
+  ],
+  "failure_cases": [
+    {"id": 475292, "category": "Person", "label": "Part instead of whole", "point_iou": 0.20, "box_iou": 0.88, "explanation": "With a single point, SAM2 segmented part of a person instead of the complete instance."},
+    {"id": 1116028, "category": "Keyboard", "label": "One key, not keyboard", "point_iou": 0.01, "box_iou": 0.88, "explanation": "The point baseline identified a single key rather than the entire keyboard."},
+    {"id": 1917299, "category": "Carrot", "label": "Instances merged", "point_iou": 0.58, "box_iou": 0.25, "explanation": "The oracle box encompassed nearby carrots; the box prediction merged multiple instances."},
+    {"id": 1169777, "category": "Backpack", "label": "Both prompts struggle", "point_iou": 0.19, "box_iou": 0.25, "explanation": "For a small backpack, both prompt types selected an incorrect object or region."}
+  ]
+}

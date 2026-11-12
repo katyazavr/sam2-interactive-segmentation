@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f6f7fb" />
+  <meta name="description" content="SAM 2 Interactive Segmentation Lab — real model inference, metrics, and research results." />
+  <title>SAM 2 — Interactive Segmentation Lab</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.6"/><rect x="3" y="14" width="7" height="7" rx="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.6"/></symbol>
+<symbol id="i-cursor" viewBox="0 0 24 24"><path d="m4 3 16 9-7.5 1.4L10 21 4 3Z"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V5m0 15h17M8 16l4-5 3 2 5-8"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6m0 4h.01"/></symbol>
+<symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6m-5 0v7l-5.5 8.6A2 2 0 0 0 6.2 22h11.6a2 2 0 0 0 1.7-3.4L14 10V3M8 15h8"/></symbol>
+<symbol id="i-git" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="6" cy="18" r="2"/><path d="M6 8v8m2-10h5a5 5 0 0 1 5 5v-1"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-7-7 7 7-7 7"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 8a8 8 0 1 0 1 6M20 3v5h-5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.5"/><path d="m4 17 6-6 4 4 3-3 4 4"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.01"/></symbol>
+<symbol id="i-chevron" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1.5" stroke-dasharray="3 3"/></symbol>
+<symbol id="i-dot" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9" stroke-dasharray="2 4"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 10 9 5 9-5M3 17l9 5 9-5"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+</svg>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a href="#top" class="brand-block" aria-label="SAM 2 Lab home">
+      <div class="logo-mark"><span>S<span class="logo-small">2</span></span><i></i></div>
+      <div><div class="brand-name">SAM <span>2</span> Lab</div><div class="brand-subtitle">COMPUTER VISION</div></div>
+    </a>
+    <div class="sidebar-label">WORKSPACE</div>
+    <nav class="sidebar-nav">
+      <a class="nav-link active" href="#top"><svg><use href="#i-grid"/></svg>Overview</a>
+      <a class="nav-link" href="#playground"><svg><use href="#i-cursor"/></svg>Playground <span class="tiny-tag">LIVE</span></a>
+      <a class="nav-link" href="#research"><svg><use href="#i-chart"/></svg>Experiment results</a>
+      <a class="nav-link" href="#failures"><svg><use href="#i-alert"/></svg>Failure analysis</a>
+      <a class="nav-link" href="#method"><svg><use href="#i-flask"/></svg>Methodology</a>
+    </nav>
+    <div class="sidebar-grow"></div>
+    <div class="sidebar-status">
+      <div class="side-status-head"><span class="live-dot" id="sideDot"></span> LOCAL ENVIRONMENT</div>
+      <strong id="sideStatusTitle">Checking setup</strong>
+      <p id="sideStatusDescription">Connecting to local project files...</p>
+      <a href="#setup" class="side-setup-link">View setup instructions <svg><use href="#i-arrow"/></svg></a>
+    </div>
+    <div class="side-footer"><span>Research project · 2026</span><span class="version">v1.0</span></div>
+  </aside>
+
+  <div class="main-shell" id="top">
+    <header class="topbar">
+      <div class="topbar-left"><button class="mobile-menu icon-button" id="mobileMenu" aria-label="Toggle menu"><svg><use href="#i-menu"/></svg></button><span class="breadcrumb">Projects</span><span class="slash">/</span><span class="breadcrumb-current">SAM 2 Interactive Segmentation</span></div>
+      <div class="topbar-right"><span class="local-pill"><span class="signal-dot"></span>LOCAL RESEARCH DEMO</span><a class="topbar-github" href="https://github.com/katyazavr/sam2-interactive-segmentation" target="_blank" rel="noopener noreferrer"><svg><use href="#i-git"/></svg><span>Repository</span><svg class="arrow-small"><use href="#i-arrow"/></svg></a></div>
+    </header>
+
+    <main class="content">
+      <section class="intro-section">
+        <div class="intro-left">
+          <div class="eyebrow"><span class="eyebrow-line"></span> SEGMENTATION RESEARCH / SAM 2.1</div>
+          <h1>Every pixel, <span>with a little guidance.</span></h1>
+          <p>Explore how a single point versus a bounding box changes what SAM 2 sees. Real predictions, quantitative evidence, and the failures behind the numbers.</p>
+          <div class="hero-actions"><a href="#playground" class="primary-button">Open playground <svg><use href="#i-arrow"/></svg></a><a href="#research" class="secondary-link">Explore results <svg><use href="#i-arrow"/></svg></a></div>
+        </div>
+        <div class="intro-art" aria-hidden="true">
+          <div class="art-grid"></div><div class="art-corner top-left"></div><div class="art-corner top-right"></div><div class="art-corner bottom-left"></div><div class="art-corner bottom-right"></div>
+          <div class="art-ring art-ring-1"></div><div class="art-ring art-ring-2"></div><div class="art-ring art-ring-3"></div>
+          <div class="art-shape"><div class="art-core"></div></div>
+          <div class="art-label art-label-a">PROMPT_01<span>● Point</span></div><div class="art-label art-label-b">MASK_OUTPUT<span>98.6% match</span></div>
+        </div>
+      </section>
+
+      <section class="stats-strip" aria-label="Key research results">
+        <div class="stat-cell"><div class="stat-label">TEST OBJECTS <svg><use href="#i-image"/></svg></div><div class="stat-number" id="topObjects">6,941</div><div class="stat-detail">Across <span id="topImages">991</span> COCO images</div></div>
+        <div class="stat-cell"><div class="stat-label">POINT MEAN IoU <svg><use href="#i-dot"/></svg></div><div class="stat-number" id="topPoint">0.6009</div><div class="stat-detail">Single positive point</div></div>
+        <div class="stat-cell"><div class="stat-label">BOX MEAN IoU <svg><use href="#i-box"/></svg></div><div class="stat-number" id="topBox">0.7619</div><div class="stat-detail">Ground-truth bounding box</div></div>
+        <div class="stat-cell stat-cell-highlight"><div class="stat-label">IMPROVEMENT <svg><use href="#i-chart"/></svg></div><div class="stat-number accent-number" id="topGain">+0.1610</div><div class="stat-detail">Mean IoU · box over point</div></div>
+      </section>
+
+      <section id="playground" class="section-block">
+        <div class="section-heading"><div><div class="section-kicker">01 / INTERACTIVE</div><h2>Segmentation playground</h2><p>Choose an object, supply a prompt, and let the actual model do the rest.</p></div><div class="header-tools"><span class="data-badge" id="dataBadge"><span class="badge-dot"></span>Checking data</span><button class="outline-button small" id="presentationBtn"><svg><use href="#i-play"/></svg> Presentation mode</button></div></div>
+        <div class="playground-frame">
+          <div class="gallery-row"><div class="gallery-title"><span>01</span><div><strong>Sample gallery</strong><small>COCO 2017 · select an instance</small></div></div><div class="gallery-scroll" id="sampleStrip"><div class="gallery-loading"><span class="mini-spinner"></span> Looking for COCO images...</div></div></div>
+          <div class="playground-content">
+            <div class="image-workspace">
+              <div class="workspace-toolbar"><div class="workspace-toolbar-left"><span class="work-dot"></span><strong id="currentImageTitle">Illustrative sample</strong><span class="work-divider"></span><span id="currentImageInfo">No local COCO image selected</span></div><div class="workspace-toolbar-right"><span class="legend-chip"><i class="legend-ground"></i> Ground truth</span><span class="legend-chip"><i class="legend-pred"></i> Prediction</span></div></div>
+              <div class="image-stage" id="imageStage" role="group" aria-label="Interactive segmentation image">
+                <img src="/static/preview-scene.svg" id="sourceImage" draggable="false" alt="Illustrative sample scene, shown only when COCO data is not loaded" />
+                <img id="stageGtMask" class="stage-overlay gt-mask" alt="" draggable="false" />
+                <img id="stagePredMask" class="stage-overlay pred-mask" alt="" draggable="false" />
+                <div class="point-marker" id="pointMarker" hidden><span></span></div>
+                <div class="box-marker" id="boxMarker" hidden></div>
+                <div class="stage-state-badge" id="stageStateBadge"><span class="state-indicator"></span> ILLUSTRATIVE PREVIEW · NOT A PREDICTION</div>
+                <div class="stage-crosshair"><svg><use href="#i-cursor"/></svg></div>
+                <div class="stage-placeholder" id="stagePlaceholder"><div class="placeholder-icon"><svg><use href="#i-image"/></svg></div><strong>Ready for a real COCO image?</strong><p>Add the dataset to your research repository to enable live interaction. Saved test statistics are available below.</p><a href="#setup">See setup guide <svg><use href="#i-arrow"/></svg></a></div>
+              </div>
+              <div class="stage-foot"><div><span class="tag-label">INTERACTION</span> <span id="interactionHint">Connect COCO to start selecting prompts</span></div><div class="stage-foot-actions"><button class="text-icon-button" id="resetButton"><svg><use href="#i-refresh"/></svg> Reset</button></div></div>
+              <div class="comparison-panel">
+                <div class="mini-heading"><strong>Prediction comparison</strong><span id="comparisonSubtitle">Ground truth vs point vs box</span></div>
+                <div class="prediction-grid">
+                  <div class="prediction-card"><div class="prediction-card-top"><span><i class="legend-ground"></i> Ground truth</span><small>COCO</small></div><div class="prediction-visual"><img class="comparison-img" id="groundImage" src="/static/preview-scene.svg" alt="Original image"/><img class="comparison-overlay" id="groundOverlay" alt="Ground truth mask"/></div><div class="prediction-caption">Reference segmentation</div></div>
+                  <div class="prediction-card"><div class="prediction-card-top"><span><i class="legend-point"></i> Point prompt</span><small id="pointCardScore">—</small></div><div class="prediction-visual"><img class="comparison-img" id="pointImage" src="/static/preview-scene.svg" alt="Point condition"/><img class="comparison-overlay" id="pointOverlay" alt="Point mask"/></div><div class="prediction-caption" id="pointCardDetail">Run point inference to compare</div></div>
+                  <div class="prediction-card"><div class="prediction-card-top"><span><i class="legend-box"></i> Box prompt</span><small id="boxCardScore">—</small></div><div class="prediction-visual"><img class="comparison-img" id="boxImage" src="/static/preview-scene.svg" alt="Box condition"/><img class="comparison-overlay" id="boxOverlay" alt="Box mask"/></div><div class="prediction-caption" id="boxCardDetail">Run box inference to compare</div></div>
+                </div>
+                <div class="comparison-warning" id="comparisonWarning"><svg><use href="#i-info"/></svg> No model predictions are being shown in the preview state.</div>
+              </div>
+            </div>
+            <aside class="controls-panel">
+              <div class="control-topline"><span>CONTROL CENTER</span><span class="control-index">INTERACTIVE / 01</span></div>
+              <h3>Run a prediction<span class="heading-dot">.</span></h3>
+              <p class="control-subtitle">Change one prompt at a time. Compare what the model understands.</p>
+              <div class="control-group"><div class="field-label">PROMPT MODE</div><div class="mode-selector" id="modeSelector"><button class="mode-option active" data-mode="point"><svg><use href="#i-dot"/></svg><span>Point</span></button><button class="mode-option" data-mode="box"><svg><use href="#i-box"/></svg><span>Box</span></button><button class="mode-option" data-mode="compare"><svg><use href="#i-layers"/></svg><span>Both</span></button></div></div>
+              <div class="control-group"><div class="field-label">PROMPT SOURCE</div><div class="radio-stack"><label class="radio-row"><input type="radio" name="promptSource" value="automatic" checked/><span class="radio-text"><b>Research baseline</b><small>GT-derived center point / oracle box</small></span></label><label class="radio-row"><input type="radio" name="promptSource" value="manual"/><span class="radio-text"><b>Draw manually</b><small>Click a point or drag a rectangle</small></span></label></div></div>
+              <div class="prompt-readout"><span class="readout-top">SELECTED PROMPT</span><div id="promptReadout">Auto · center point</div><small id="promptReadoutSub">Coordinates appear after selecting an image</small></div>
+              <button id="runButton" class="run-button" disabled><span id="runButtonText">Run point inference</span><svg><use href="#i-arrow"/></svg></button>
+              <button id="savedButton" class="saved-button" disabled>Load saved test predictions <svg><use href="#i-arrow"/></svg></button>
+              <div class="opacity-group"><div class="opacity-head"><span>Mask opacity</span><b id="opacityValue">72%</b></div><input type="range" id="opacitySlider" min="0" max="100" value="72" aria-label="Mask overlay opacity"/><label class="toggle-row"><input type="checkbox" id="showGtToggle"/><span>Show ground truth on main image</span></label></div>
+              <div class="control-separator"></div>
+              <div class="live-metrics-head"><strong>Selected instance</strong><span class="metric-origin" id="metricOrigin">NO RUN</span></div>
+              <div class="live-metrics-grid"><div class="live-metric"><small>POINT IoU</small><b id="livePointIoU">—</b><span id="livePointDice">Dice —</span></div><div class="live-metric"><small>BOX IoU</small><b id="liveBoxIoU">—</b><span id="liveBoxDice">Dice —</span></div></div>
+              <div class="latency-row"><svg><use href="#i-clock"/></svg><span>Encoder</span><b id="encoderLatency">—</b></div><div class="latency-row"><svg><use href="#i-clock"/></svg><span>Prompt inference</span><b id="promptLatency">—</b></div>
+              <div class="run-feedback" id="runFeedback" role="status" aria-live="polite">Choose a real COCO sample to enable inference.</div>
+            </aside>
+          </div>
+          <div class="pipeline-panel"><div class="pipeline-title"><div><span class="pipeline-marker">PIPELINE</span><strong>From pixels to understanding</strong></div><span id="pipelineStatus">Waiting for input</span></div><div class="pipeline-track" id="pipelineTrack"><div class="pipeline-step" data-stage="dataset"><span class="pipeline-stepnum">01</span><b>COCO image</b><small>Image & annotation</small></div><div class="pipeline-connector"></div><div class="pipeline-step" data-stage="prompt"><span class="pipeline-stepnum">02</span><b>Prompt</b><small>Point / bounding box</small></div><div class="pipeline-connector"></div><div class="pipeline-step" data-stage="encoder"><span class="pipeline-stepnum">03</span><b>Image encoder</b><small>Image embedding</small></div><div class="pipeline-connector"></div><div class="pipeline-step" data-stage="decoder"><span class="pipeline-stepnum">04</span><b>Mask decoder</b><small>Mask prediction</small></div><div class="pipeline-connector"></div><div class="pipeline-step" data-stage="evaluation"><span class="pipeline-stepnum">05</span><b>Evaluation</b><small>IoU + Dice</small></div></div></div>
+        </div>
+      </section>
+
+      <section id="research" class="section-block">
+        <div class="section-heading"><div><div class="section-kicker">02 / EXPERIMENTAL RESULTS</div><h2>One variable. A clear result.</h2><p>Same pretrained model. Same 6,941 objects. Only the prompt type changes.</p></div><div class="results-source" id="resultsSource">LOADING RESULTS</div></div>
+        <div class="research-grid"><div class="research-feature"><div class="feature-overline">MAIN FINDING <span>↗</span></div><div class="feature-number" id="bigDelta">+0.1610</div><div class="feature-unit">mean IoU with box prompts</div><p>Bounding boxes reduce severe segmentation mistakes, particularly for large and multipart objects.</p><div class="feature-foot"><span>POINT <b id="pointPercent">60.09%</b></span><span class="feature-arrow">→</span><span>BOX <b id="boxPercent">76.19%</b></span></div><div class="feature-spark"><span style="height:43%"></span><span style="height:53%"></span><span style="height:46%"></span><span style="height:67%"></span><span style="height:66%"></span><span style="height:75%"></span><span style="height:88%"></span><span style="height:100%"></span></div></div><div class="research-chart"><div class="chart-head"><div><strong>Segmentation accuracy</strong><span>IoU and Dice · held-out test split</span></div><div class="chart-legend"><span><i class="legend-point"></i>Point</span><span><i class="legend-box"></i>Box</span></div></div><div class="metric-bar-row"><div class="metric-bar-label">Mean IoU</div><div class="metric-bars"><div class="metric-bar point" id="iouPointBar" style="width:60.09%"></div><div class="metric-bar box" id="iouBoxBar" style="width:76.19%"></div></div><div class="metric-bar-value" id="iouValue">.601 / .762</div></div><div class="metric-bar-row"><div class="metric-bar-label">Mean Dice</div><div class="metric-bars"><div class="metric-bar point" id="dicePointBar" style="width:69.97%"></div><div class="metric-bar box" id="diceBoxBar" style="width:85.08%"></div></div><div class="metric-bar-value" id="diceValue">.700 / .851</div></div><div class="chart-axis"><span>0</span><span>0.25</span><span>0.50</span><span>0.75</span><span>1.00</span></div><div class="chart-insight"><svg><use href="#i-check"/></svg><p>The box prompt outperforms the point prompt for <strong id="boxBetterShare">68.4%</strong> of test objects.</p></div></div></div>
+        <div class="research-lower"><div class="threshold-card"><div class="chart-head"><div><strong>Quality at different thresholds</strong><span>% objects with IoU ≥ threshold</span></div></div><div class="threshold-table"><div class="threshold-head"><span>IoU</span><span>POINT</span><span>BOX</span><span>ADVANTAGE</span></div><div id="thresholdRows"></div></div><div class="threshold-foot">Box prompts show the strongest gains at medium-quality thresholds.</div></div><div class="runtime-card"><div class="chart-head"><div><strong>Inference profile</strong><span>Per-image encoding vs per-object prompt</span></div><span class="runtime-device" id="runtimeDevice">MAC / MPS</span></div><div class="runtime-big"><strong id="runtimeEncoder">~590<span>ms</span></strong><span>Mean image encoding</span></div><div class="runtime-divider"></div><div class="runtime-big secondary"><strong id="runtimePrompt">~10<span>ms</span></strong><span>Mean prompt decoding</span></div><div class="runtime-explain">Encoder time counted once per image; prompt time counted per object. Recorded on the team's test environment.</div></div></div>
+      </section>
+
+      <section id="failures" class="section-block"><div class="section-heading"><div><div class="section-kicker">03 / FAILURE ANALYSIS</div><h2>Where the model gets it wrong.</h2><p>Real edge cases reveal what each prompt does—and doesn't—communicate.</p></div><span class="failure-count">4 HAND-PICKED CASES</span></div><div class="failure-grid" id="failureGrid"></div><div class="failure-full"><div><strong>Inspect the team's failure-analysis figure</strong><span>Ground truth · point prediction · box prediction</span></div><a href="/api/figure/failure" target="_blank" class="outline-button small" id="failureFigureLink">Open full figure <svg><use href="#i-arrow"/></svg></a></div></section>
+
+      <section id="method" class="section-block method-section"><div class="section-heading"><div><div class="section-kicker">04 / METHODOLOGY</div><h2>Controlled by design.</h2><p>Exactly one major experimental change: the prompt.</p></div></div><div class="method-grid"><div class="method-card"><div class="method-icon"><svg><use href="#i-flask"/></svg></div><strong>Pretrained SAM 2.1</strong><p>Hiera Base+ weights, no training or fine-tuning. Best-scoring mask from three candidates.</p></div><div class="method-card"><div class="method-icon"><svg><use href="#i-grid"/></svg></div><strong>Image-level split</strong><p>COCO 2017 val split into 60/20/20 development, validation and test. Seed 42; no overlapping images.</p></div><div class="method-card"><div class="method-icon"><svg><use href="#i-dot"/></svg></div><strong>Controlled prompts</strong><p>Point from the GT mask's distance-transform center. Box from the GT annotation (oracle).</p></div><div class="method-card"><div class="method-icon"><svg><use href="#i-chart"/></svg></div><strong>Paired evaluation</strong><p>Both methods scored on the same object instances. IoU, Dice, latency and failure analysis.</p></div></div><div class="method-warning"><svg><use href="#i-info"/></svg><span><b>Important limitation.</b> Oracle COCO bounding boxes are exact. Boxes drawn by people or predicted by detectors may give lower performance. These results do not evaluate a separate object detector.</span></div></section>
+
+      <section id="setup" class="setup-section"><div class="setup-left"><span class="section-kicker">ENVIRONMENT / GET STARTED</span><h2>Run the real pipeline locally.</h2><p>All computation stays on your machine. No cloud inference, external API or model training required.</p><div class="setup-status-list"><div><span id="statusCocoIcon" class="status-cross">○</span> COCO data <strong id="statusCocoText">Checking</strong></div><div><span id="statusWeightsIcon" class="status-cross">○</span> SAM2 weights <strong id="statusWeightsText">Checking</strong></div><div><span id="statusSavedIcon" class="status-cross">○</span> Saved prediction masks <strong id="statusSavedText">Checking</strong></div></div></div><div class="setup-code"><div class="code-top"><span><i></i><i></i><i></i></span><b>TERMINAL</b><button id="copySetup" aria-label="Copy setup commands">COPY</button></div><pre><code id="setupCode"># From the research repository root
+pip install -r requirements.txt
+pip install fastapi uvicorn
+python scripts/download_coco.py
+python dataset.py --coco-root data/coco --out-dir data/processed
+python scripts/download_sam2_checkpoint.py
+python -m demo.app</code></pre><div class="code-bottom">→ http://127.0.0.1:8000</div></div></section>
+      <footer class="footer"><div><div class="footer-mark">S<span>2</span></div><span>SAM 2 Interactive Segmentation Lab · Computer Vision 2026</span></div><a href="https://github.com/katyazavr/sam2-interactive-segmentation" target="_blank" rel="noopener noreferrer">View research repository <svg><use href="#i-arrow"/></svg></a></footer>
+    </main>
+  </div>
+</div>
+<div id="toast" class="toast" role="alert" aria-live="assertive"></div>
+<div id="presentationHint" class="presentation-hint" hidden><span>● PRESENTATION MODE</span><strong id="presentationStep">1 / 5 — Select an image</strong><div><button id="prevStep">Back</button><button id="nextStep">Next step →</button><button id="exitPresentation">Exit ×</button></div></div>
+<script src="/static/app.js" defer></script>
+</body>
+</html>
